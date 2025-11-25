@@ -599,8 +599,16 @@ body {
     height: 100%;
     background: rgba(0, 0, 0, 0.92);
     z-index: 1999;
-    animation: fadeIn 0.5s ease-out forwards;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-out;
 }
+
+.secret-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
 
 /* Responsive tablets */
 @media (max-width: 768px) {
@@ -665,5 +673,31 @@ body {
     .envelope-click-hint {
         font-size: 0.9em;
         bottom: -45px;
+    }
+}
+
+.time-counter {
+    font-family: "Pacifico", "Cookie", "Great Vibes", cursive;
+    font-size: 18px;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 10px;
+    opacity: 0.85;
+    text-shadow: 0 0 8px rgba(255, 170, 255, 0.6),
+                 0 0 15px rgba(255, 100, 200, 0.5);
+}
+
+/* Correcciones en móviles */
+@media (max-width: 768px) {
+    .time-counter {
+        font-size: 15px;   /* Más pequeño y ajustado */
+        padding: 0 20px;   /* Evita que el texto se corte */
+    }
+}
+
+@media (max-width: 480px) {
+    .time-counter {
+        font-size: 11px;
+        padding: 0 15px;
     }
 }

@@ -3,12 +3,16 @@ setTimeout(() => {
     iniciarAnimaciones();
 }, 3000); // 3 segundos de intro
 
-function iniciarAnimaciones() {
 
+
+
+
+
+function iniciarAnimaciones() {
 // Mensaje Secreto después de X clics
 // Mensaje Secreto después de X clics
 let secretClicks = 0;
-const CLICKS_NEEDED = 10;
+const CLICKS_NEEDED = 17;
 let secretShown = false;
 let envelopeOpen = false;
 
@@ -50,6 +54,8 @@ function showSecretMessage() {
     overlay.className = 'secret-overlay';
     overlay.id = 'secretOverlay';
     document.body.appendChild(overlay);
+    setTimeout(() => overlay.classList.add('active'), 50);
+
     
     // Crear sobre
     const envelope = document.createElement('div');
@@ -349,3 +355,43 @@ window.addEventListener('resize', () => {
         heartInterval = setInterval(createFloatingHeart, 300);
     }
 })};
+
+
+function iniciarContadorPersistente() {
+
+    // Coloca aquí tu fecha especial
+    const fechaInicio = new Date("2025-11-21T23:06:00"); 
+
+    const contador = document.getElementById("timeCounter");
+
+    function actualizar() {
+        const ahora = new Date();
+        let diferencia = ahora - fechaInicio;
+
+        let segundos = Math.floor(diferencia / 1000);
+        let minutos = Math.floor(segundos / 60);
+        let horas = Math.floor(minutos / 60);
+        let dias = Math.floor(horas / 24);
+
+        const años = Math.floor(dias / 365);
+        dias %= 365;
+
+        const meses = Math.floor(dias / 30);
+        dias %= 30;
+
+        horas %= 24;
+        minutos %= 60;
+        segundos %= 60;
+
+        contador.textContent =
+            `Tiempo juntos: ${años} años, ${meses} meses, ${dias} días, ` +
+            `${horas} horas, ${minutos} minutos, ${segundos} segundos`;
+    }
+
+    actualizar();
+    setInterval(actualizar, 1000);
+}
+
+window.onload = () => {
+    iniciarContadorPersistente();
+};
