@@ -1,23 +1,32 @@
+// --- DESBLOQUEAR AUDIO EN MÓVILES Y PC --
+let audioDesbloqueado = false;
+
+function activarMusica() {
+    if (audioDesbloqueado) return;
+
+    const audio = document.getElementById("musica");
+    if (audio) {
+        audio.muted = false;
+        audio.play()
+            .then(() => {
+                audioDesbloqueado = true;
+                console.log("🎵 Audio activado correctamente");
+            })
+            .catch(err => console.log("No se pudo reproducir aún:", err));
+    }
+}
+
+// Capturar ANTES de cualquier evento de tu UI
+window.addEventListener("touchstart", activarMusica, { once: true, capture: true });
+window.addEventListener("click", activarMusica, { once: true, capture: true });
+
+
+
+
 // Esperar a que termine la intro antes de iniciar animaciones
 setTimeout(() => {
     iniciarAnimaciones();
 }, 3000); // 3 segundos de intro
-
-// 🔊 Desbloquear música en el PRIMER toque/clic (MÓVIL + PC)
-function activarMusica() {
-    const audio = document.getElementById("musica");
-    if (audio) {
-        audio.muted = false;
-        audio.play().catch(() => {});
-    }
-}
-
-// Se ejecuta ANTES que cualquier otro evento
-window.addEventListener("click", activarMusica, { once: true, capture: true });
-window.addEventListener("touchstart", activarMusica, { once: true, capture: true });
-
-
-
 
 
 function iniciarAnimaciones() {
@@ -236,7 +245,12 @@ heartInterval = setInterval(createFloatingHeart, 300);
 // Crear explosión de corazones al hacer clic o touch
 // Crear explosión de corazones al hacer clic o touch
 function handleInteraction(e) {
-    e.preventDefault(); // Prevenir comportamiento por defecto
+   if (!audioDesbloqueado) {
+    // No bloquear el primer clic, permite que desbloquee audio
+} else {
+    e.preventDefault(); // Ya puedes usar preventDefault después
+}
+ // Prevenir comportamiento por defecto
     
     // Obtener coordenadas correctas para touch y click
     const x = e.touches ? e.touches[0].clientX : e.clientX;
