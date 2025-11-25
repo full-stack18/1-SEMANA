@@ -395,3 +395,8 @@ function iniciarContadorPersistente() {
 window.onload = () => {
     iniciarContadorPersistente();
 };
+
+document.addEventListener("click", function () {
+    const audio = document.getElementById("musica");
+    audio.play().catch(() => {});
+}, { once: true });
