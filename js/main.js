@@ -3,6 +3,18 @@ setTimeout(() => {
     iniciarAnimaciones();
 }, 3000); // 3 segundos de intro
 
+// 🔊 Desbloquear música en el PRIMER toque/clic (MÓVIL + PC)
+function activarMusica() {
+    const audio = document.getElementById("musica");
+    if (audio) {
+        audio.muted = false;
+        audio.play().catch(() => {});
+    }
+}
+
+// Se ejecuta ANTES que cualquier otro evento
+window.addEventListener("click", activarMusica, { once: true, capture: true });
+window.addEventListener("touchstart", activarMusica, { once: true, capture: true });
 
 
 
@@ -395,8 +407,3 @@ function iniciarContadorPersistente() {
 window.onload = () => {
     iniciarContadorPersistente();
 };
-
-document.addEventListener("click", function () {
-    const audio = document.getElementById("musica");
-    audio.play().catch(() => {});
-}, { once: true });
