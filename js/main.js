@@ -1,3 +1,9 @@
+// Esperar a que termine la intro antes de iniciar animaciones
+setTimeout(() => {
+    iniciarAnimaciones();
+}, 3000); // 3 segundos de intro
+
+function iniciarAnimaciones() {
 const canvas = document.getElementById('heartsCanvas');
 const hearts = ['❤️', '💕', '💖', '💗', '💓', '💝'];
 let heartInterval;
@@ -164,4 +170,4 @@ window.addEventListener('resize', () => {
         clearInterval(heartInterval);
         heartInterval = setInterval(createFloatingHeart, 300);
     }
-});
+})};
