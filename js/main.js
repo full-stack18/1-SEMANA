@@ -4,6 +4,149 @@ setTimeout(() => {
 }, 3000); // 3 segundos de intro
 
 function iniciarAnimaciones() {
+
+// Mensaje Secreto después de X clics
+let secretClicks = 0;
+const CLICKS_NEEDED = 10;
+let secretShown = false;
+let envelopeOpen = false;
+
+document.addEventListener('click', (e) => {
+    // No contar clics si el sobre ya está abierto
+    if (!secretShown && !document.getElementById('secretEnvelope')) {
+        secretClicks++;
+        
+        if (secretClicks === 5) {
+            console.log('💕 Sigue haciendo clic...');
+        }
+        
+        if (secretClicks >= CLICKS_NEEDED) {
+            showSecretMessage();
+            secretShown = true;
+        }
+    }
+});
+
+function showSecretMessage() {
+    // Crear overlay oscuro
+    const overlay = document.createElement('div');
+    overlay.className = 'secret-overlay';
+    overlay.id = 'secretOverlay';
+    document.body.appendChild(overlay);
+    
+    // Crear sobre
+    const envelope = document.createElement('div');
+    envelope.className = 'secret-envelope';
+    envelope.id = 'secretEnvelope';
+    envelope.innerHTML = `
+        <div class="envelope-wrapper">
+            <div class="envelope-back-flap"></div>
+            <div class="envelope-body">
+                <div class="letter-paper">
+                    <h2>✨ Para ti Corazón ✨</h2>
+                    <p>Eres la razón de mi felicidad</p>
+                    <p>Cada momento contigo es mágico 🌟</p>
+                    <p>Espero poder pasar muchos 💕</p>
+                    <p>más momentos asi 🌟</p>
+                </div>
+            </div>
+            <div class="envelope-front-flap"></div>
+            <div class="envelope-heart">❤️</div>
+        </div>
+        <div class="envelope-click-hint">Haz clic para abrir 💌</div>
+    `;
+    document.body.appendChild(envelope);
+    
+    // Crear explosión de corazones
+    createSecretHeartExplosion();
+    
+    // Manejar clics
+    setTimeout(() => {
+        envelope.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleEnvelope();
+        });
+        
+        overlay.addEventListener('click', () => {
+            if (envelopeOpen) {
+                closeSecretMessage();
+            }
+        });
+    }, 1000);
+}
+function toggleEnvelope() {
+    const envelope = document.getElementById('secretEnvelope');
+    const hint = envelope.querySelector('.envelope-click-hint');
+    
+    if (!envelopeOpen) {
+        // Abrir sobre
+        envelope.classList.add('envelope-open');
+        envelopeOpen = true;
+        if (hint) hint.textContent = 'Haz clic para cerrar ✕';
+    } else {
+        // Cerrar sobre completamente
+        closeSecretMessage();
+    }
+}
+
+function closeSecretMessage() {
+    const envelope = document.getElementById('secretEnvelope');
+    const overlay = document.getElementById('secretOverlay');
+    
+    if (envelope && overlay) {
+        envelope.style.animation = 'envelopeAppear 0.6s reverse';
+        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity 0.6s';
+        
+        setTimeout(() => {
+            envelope.remove();
+            overlay.remove();
+            envelopeOpen = false;
+            secretShown = false;
+            secretClicks = 0;
+        }, 600);
+    }
+}
+
+function createSecretHeartExplosion() {
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    
+    for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.position = 'fixed';
+            heart.style.fontSize = '30px';
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '1998';
+            
+            const angle = (Math.PI * 2 * i) / 30;
+            const distance = 300;
+            const startX = centerX;
+            const startY = centerY;
+            const endX = centerX + Math.cos(angle) * distance;
+            const endY = centerY + Math.sin(angle) * distance;
+            
+            heart.style.left = startX + 'px';
+            heart.style.top = startY + 'px';
+            heart.style.transition = 'all 1.5s ease-out';
+            heart.style.opacity = '1';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.style.left = endX + 'px';
+                heart.style.top = endY + 'px';
+                heart.style.opacity = '0';
+                heart.style.transform = `scale(1.5) rotate(${Math.random() * 360}deg)`;
+            }, 50);
+            
+            setTimeout(() => heart.remove(), 1600);
+        }, i * 50);
+    }
+}
+   
 const canvas = document.getElementById('heartsCanvas');
 const hearts = ['❤️', '💕', '💖', '💗', '💓', '💝'];
 let heartInterval;

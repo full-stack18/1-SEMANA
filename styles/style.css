@@ -380,3 +380,290 @@ body {
         text-align: center;
     }
 }
+/* Sobre con Mensaje Secreto - VERSIÓN FINAL CORREGIDA */
+.secret-envelope {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 400px;
+    height: 250px;
+    z-index: 2000;
+    cursor: pointer;
+    animation: envelopeAppear 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.envelope-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Cuerpo principal del sobre (la caja blanca) */
+.envelope-body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 70%;
+    background: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    overflow: visible;
+}
+
+/* Solapa trasera (la de abajo, rosa claro) */
+.envelope-back-flap {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: #ffb3d1;
+    clip-path: polygon(0 0, 50% 70%, 100% 0);
+    transform: translateY(-70%);
+    z-index: 1;
+}
+
+/* Solapa frontal (la que se abre, rosa fuerte) */
+.envelope-front-flap {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: #ff6b9d;
+    clip-path: polygon(0 0, 50% 70%, 100% 0);
+    transform: translateY(-70%);
+    transform-origin: 50% 70%;
+    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 3;
+    filter: drop-shadow(0 5px 20px rgba(255, 107, 157, 0.5));
+}
+
+/* Corazón en el centro */
+.envelope-heart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4em;
+    z-index: 4;
+    animation: heartBeat 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 71, 87, 0.8));
+    transition: all 0.6s ease;
+}
+
+/* Estado abierto */
+.envelope-open .envelope-front-flap {
+    transform: translateY(-70%) rotateX(180deg);
+}
+.envelope-open .envelope-heart {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+}
+
+/* La carta dentro del sobre */
+/* La carta dentro del sobre */
+.letter-paper {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 70%;
+    background: linear-gradient(to bottom, #fff9fc, #ffffff);
+    padding: 20px;
+    border-radius: 8px;
+    transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 1;
+    overflow-y: auto;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Carta sale hacia arriba cuando se abre */
+/* Carta sale hacia arriba cuando se abre */
+.envelope-open .letter-paper {
+    bottom: 60%;
+    height: 380px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+    opacity: 1;
+    visibility: visible;
+    max-height: 50vh;
+}
+
+/* Para pantallas grandes (laptops y desktops) */
+@media (min-width: 769px) {
+    .envelope-open .letter-paper {
+        bottom: 50%;
+        height: 400px;
+        max-height: 60vh;
+    }
+    
+    .secret-envelope {
+        top: 55%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .envelope-open .letter-paper {
+        bottom: 45%;
+        max-height: 65vh;
+    }
+}
+
+.letter-paper h2 {
+    font-size: 1.9em;
+    color: #ff6b9d;
+    margin-bottom: 15px;
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+}
+
+.letter-paper p {
+    font-size: 1.15em;
+    color: #333;
+    margin: 12px 0;
+    line-height: 1.8;
+    text-align: center;
+    font-family: 'Pacifico', cursive;
+}
+
+/* Scrollbar */
+.letter-paper::-webkit-scrollbar {
+    width: 8px;
+}
+
+.letter-paper::-webkit-scrollbar-track {
+    background: #ffe8f0;
+    border-radius: 10px;
+}
+
+.letter-paper::-webkit-scrollbar-thumb {
+    background: #ff6b9d;
+    border-radius: 10px;
+}
+
+.letter-paper::-webkit-scrollbar-thumb:hover {
+    background: #ff4776;
+}
+
+/* Hint de clic */
+.envelope-click-hint {
+    position: absolute;
+    bottom: -55px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.1em;
+    opacity: 0.9;
+    animation: blink 2s ease-in-out infinite;
+    white-space: nowrap;
+    text-shadow: 0 3px 15px rgba(0, 0, 0, 0.9);
+    font-family: 'Pacifico', cursive;
+}
+
+@keyframes envelopeAppear {
+    0% {
+        transform: translate(-50%, -50%) scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes heartBeat {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(1); 
+    }
+    25% { 
+        transform: translate(-50%, -50%) scale(1.15); 
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1); 
+    }
+}
+
+/* Overlay oscuro */
+.secret-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 1999;
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Responsive tablets */
+@media (max-width: 768px) {
+    .secret-envelope {
+        width: 350px;
+        height: 220px;
+    }
+    
+    .envelope-heart {
+        font-size: 3.5em;
+    }
+    
+    .envelope-open .letter-paper {
+        height: 310px;
+    }
+    
+    .letter-paper h2 {
+        font-size: 1.6em;
+    }
+    
+    .letter-paper p {
+        font-size: 1em;
+    }
+    
+    .envelope-click-hint {
+        font-size: 1em;
+        bottom: -50px;
+    }
+}
+
+/* Responsive móviles */
+@media (max-width: 480px) {
+    .secret-envelope {
+        width: 320px;
+        height: 200px;
+    }
+    
+    .envelope-heart {
+        font-size: 3em;
+    }
+    
+    .envelope-open .letter-paper {
+        height: 280px;
+        bottom: 85%;
+    }
+    
+    .letter-paper {
+        padding: 18px 15px;
+    }
+    
+    .letter-paper h2 {
+        font-size: 1.5em;
+        margin-bottom: 12px;
+    }
+    
+    .letter-paper p {
+        font-size: 0.95em;
+        margin: 10px 0;
+        line-height: 1.6;
+    }
+    
+    .envelope-click-hint {
+        font-size: 0.9em;
+        bottom: -45px;
+    }
+}
