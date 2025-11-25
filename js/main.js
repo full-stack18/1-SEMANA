@@ -6,28 +6,45 @@ setTimeout(() => {
 function iniciarAnimaciones() {
 
 // Mensaje Secreto después de X clics
+// Mensaje Secreto después de X clics
 let secretClicks = 0;
 const CLICKS_NEEDED = 10;
 let secretShown = false;
 let envelopeOpen = false;
 
-document.addEventListener('click', (e) => {
-    // No contar clics si el sobre ya está abierto
-    if (!secretShown && !document.getElementById('secretEnvelope')) {
-        secretClicks++;
-        
-        if (secretClicks === 5) {
-            console.log('💕 Sigue haciendo clic...');
-        }
-        
-        if (secretClicks >= CLICKS_NEEDED) {
-            showSecretMessage();
-            secretShown = true;
-        }
+// Agregar el listener al documento, pero solo contar clics válidos
+document.addEventListener('click', handleSecretClick);
+document.addEventListener('touchend', handleSecretClick); // Para móviles
+
+function handleSecretClick(e) {
+    // No contar si ya apareció el sobre
+    if (secretShown || document.getElementById('secretEnvelope')) {
+        return;
     }
-});
+    
+    // No contar clics en elementos específicos que no debemos contar
+    if (e.target.closest('.intro-screen')) {
+        return;
+    }
+    
+    secretClicks++;
+    console.log('Clics: ' + secretClicks + '/' + CLICKS_NEEDED);
+    
+    if (secretClicks === 5) {
+        console.log('💕 Sigue haciendo clic... ya casi!');
+    }
+    
+    if (secretClicks >= CLICKS_NEEDED) {
+        secretShown = true;
+        showSecretMessage();
+    }
+}
 
 function showSecretMessage() {
+    // Remover el listener para no seguir contando
+    document.removeEventListener('click', handleSecretClick);
+    document.removeEventListener('touchend', handleSecretClick);
+    
     // Crear overlay oscuro
     const overlay = document.createElement('div');
     overlay.className = 'secret-overlay';
@@ -43,11 +60,12 @@ function showSecretMessage() {
             <div class="envelope-back-flap"></div>
             <div class="envelope-body">
                 <div class="letter-paper">
-                    <h2>✨ Para ti Corazón ✨</h2>
+                    <h2>✨ Para mi Esther ✨</h2>
+                    <p>Wow, encontraste el mensaje escondido 💖</p>
                     <p>Eres la razón de mi felicidad</p>
-                    <p>Cada momento contigo es mágico 🌟</p>
-                    <p>Espero poder pasar muchos 💕</p>
-                    <p>más momentos asi 🌟</p>
+                    <p>Cada momento contigo es mágico</p>
+                    <p>Te amo más de lo que imaginas 💕</p>
+                    <p>Eres mi persona favorita 🌟</p>
                 </div>
             </div>
             <div class="envelope-front-flap"></div>
@@ -60,9 +78,15 @@ function showSecretMessage() {
     // Crear explosión de corazones
     createSecretHeartExplosion();
     
-    // Manejar clics
+    // Manejar clics en el sobre y overlay
     setTimeout(() => {
         envelope.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleEnvelope();
+        });
+        
+        envelope.addEventListener('touchend', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             toggleEnvelope();
         });
@@ -72,8 +96,16 @@ function showSecretMessage() {
                 closeSecretMessage();
             }
         });
+        
+        overlay.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            if (envelopeOpen) {
+                closeSecretMessage();
+            }
+        });
     }, 1000);
 }
+
 function toggleEnvelope() {
     const envelope = document.getElementById('secretEnvelope');
     const hint = envelope.querySelector('.envelope-click-hint');
@@ -104,6 +136,10 @@ function closeSecretMessage() {
             envelopeOpen = false;
             secretShown = false;
             secretClicks = 0;
+            
+            // Volver a agregar el listener
+            document.addEventListener('click', handleSecretClick);
+            document.addEventListener('touchend', handleSecretClick);
         }, 600);
     }
 }
