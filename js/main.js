@@ -60,12 +60,11 @@ function showSecretMessage() {
             <div class="envelope-back-flap"></div>
             <div class="envelope-body">
                 <div class="letter-paper">
-                    <h2>✨ Para mi Esther ✨</h2>
-                    <p>Wow, encontraste el mensaje escondido 💖</p>
+                    <h2>✨ Para Esther ✨</h2>
                     <p>Eres la razón de mi felicidad</p>
-                    <p>Cada momento contigo es mágico</p>
-                    <p>Te amo más de lo que imaginas 💕</p>
-                    <p>Eres mi persona favorita 🌟</p>
+                    <p>Cada momento contigo es mágico 🌟</p>
+                    <p>Espero poder pasar muchos 💕</p>
+                    <p>más momentos a tu lado mua 🌟</p>
                 </div>
             </div>
             <div class="envelope-front-flap"></div>
