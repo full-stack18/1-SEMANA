@@ -87,7 +87,7 @@ function showSecretMessage() {
             <div class="envelope-back-flap"></div>
             <div class="envelope-body">
                 <div class="letter-paper">
-                    <h2>✨ Para Esther ✨</h2>
+                    <h2>✨ Para Jimena ✨</h2>
                     <p>Eres la razón de mi felicidad</p>
                     <p>Cada momento contigo es mágico 🌟</p>
                     <p>Espero poder pasar muchos 💕</p>
@@ -259,7 +259,7 @@ function handleInteraction(e) {
     // Crear el nombre "Esther"
     const namePopup = document.createElement('div');
     namePopup.className = 'name-popup';
-    namePopup.textContent = 'Esther';
+    namePopup.textContent = 'Jimena';
     namePopup.style.left = x + 'px';
     namePopup.style.top = y + 'px';
     canvas.appendChild(namePopup);
@@ -386,7 +386,7 @@ window.addEventListener('resize', () => {
 function iniciarContadorPersistente() {
 
     // Coloca aquí tu fecha especial
-    const fechaInicio = new Date("2025-11-21T23:06:00"); 
+    const fechaInicio = new Date("2026-02-06T18:06:00"); 
 
     const contador = document.getElementById("timeCounter");
 
